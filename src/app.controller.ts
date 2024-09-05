@@ -13,6 +13,7 @@ export class AppController {
 
   @Get('categories')
   async getAllCategories(): Promise<CategoriesModel[]> {
+    console.log('endpoint hit');
     return this.categoriesService.categories();
   }
 }
