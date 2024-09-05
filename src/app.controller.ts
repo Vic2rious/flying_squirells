@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Param } from '@nestjs/common';
+import { CategoriesService } from './categories.service';
+import { categories as CategoriesModel } from '@prisma/client';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly categoriesService: CategoriesService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('categories/:id')
+  async getCategoryById(@Param('id') id: string): Promise<CategoriesModel> {
+    return this.categoriesService.category({ id: Number(id) });
+  }
+
+  @Get('categories')
+  async getAllCategories(): Promise<CategoriesModel[]> {
+    return this.categoriesService.categories();
   }
 }

@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model categories {
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(256)
+  cover_photo String?
+  products    products[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model products {
+  id                Int         @id @default(autoincrement())
+  name              String      @db.VarChar(512)
+  short_description String      @db.VarChar(512)
+  description       String
+  price             Decimal     @db.Decimal(10, 2)
+  discount          Int?
+  quantity          Int
+  mark_as_new       Boolean?
+  cover_photo       String
+  additional_photos String[]
+  sizes             String[]    @db.VarChar
+  colors            String[]    @db.VarChar
+  category_id       Int?
+  categories        categories? @relation(fields: [category_id], references: [id], onUpdate: NoAction, map: "fk_category")
+}
