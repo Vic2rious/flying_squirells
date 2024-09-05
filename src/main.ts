@@ -7,7 +7,7 @@ async function bootstrap() {
   console.log(`Server listening on: http://localhost:3000/`);
 
   app.enableCors({
-    origin: 'http://localhost:4200/', // Replace with your frontend's URL
+    origin: '*', // Replace with your frontend's URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true, // If you need to include cookies or authentication info
   });
