@@ -1,5 +1,6 @@
 import {
   Controller,
+  Query,
   Get,
   Param,
   Post,
@@ -23,9 +24,14 @@ export class ProductsController {
 
   // Get all products
   @Get('products')
-  async getAllProducts(): Promise<ProductsModel[]> {
-    console.log('Products endpoint hit');
-    return this.productsService.products();
+  async getPaginatedProducts(
+    @Query('skip') skip: string,
+    @Query('take') take: string,
+  ): Promise<ProductsModel[]> {
+    return this.productsService.products({
+      skip: Number(skip) || 0, // Default to 0 if no skip is provided
+      take: Number(take) || undefined, // Default to 4 if no take is provided
+    });
   }
 
   // Create a new product
