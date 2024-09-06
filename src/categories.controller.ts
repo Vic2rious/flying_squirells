@@ -1,6 +1,10 @@
 import {
   Controller,
   Get,
+  HttpCode,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
   Param,
   Post,
   Body,
@@ -23,7 +27,17 @@ export class CategoriesController {
   // Get a single category by ID
   @Get('categories/:id')
   async getCategoryById(@Param('id') id: string): Promise<CategoriesModel> {
-    return this.categoriesService.category({ id: Number(id) });
+    if (isNaN(Number(id))) {
+      throw new BadRequestException('Invalid ID format, samo cifri be manqk');
+    }
+    const category = await this.categoriesService.category({ id: Number(id) });
+
+    if (!category) {
+      throw new NotFoundException(
+        `Category with ID ${id} not found, opitaj pak`,
+      );
+    }
+    return category;
   }
 
   // Get all categories
@@ -35,9 +49,18 @@ export class CategoriesController {
 
   // Create a new category
   @Post('categories')
+  @HttpCode(204)
   async createCategory(
     @Body() categoryData: Prisma.categoriesCreateInput,
   ): Promise<CategoriesModel> {
+    const existingCategory = await this.categoriesService.findFirst({
+      where: { name: categoryData.name },
+    });
+    if (existingCategory) {
+      throw new ConflictException(
+        'Category with this name already exists, bravo shef',
+      );
+    }
     return this.categoriesService.createCategory(categoryData);
   }
 

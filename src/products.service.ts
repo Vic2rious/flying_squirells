@@ -62,4 +62,13 @@ export class ProductsService {
       where,
     });
   }
+
+  async findFirst(params: {
+    where: Prisma.productsWhereInput;
+  }): Promise<products | null> {
+    const { where } = params;
+    return this.prisma.products.findFirst({
+      where,
+    });
+  }
 }

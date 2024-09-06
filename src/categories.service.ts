@@ -64,4 +64,13 @@ export class CategoriesService {
       where,
     });
   }
+
+  async findFirst(params: {
+    where: Prisma.categoriesWhereInput;
+  }): Promise<categories | null> {
+    const { where } = params;
+    return this.prisma.categories.findFirst({
+      where,
+    });
+  }
 }

@@ -7,10 +7,16 @@ import { ConfigModule } from '@nestjs/config';
 import { CategoriesService } from './categories.service';
 import { ProductsService } from './products.service';
 import { PrismaService } from './prisma.service';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [ConfigModule.forRoot()],
-  controllers: [CategoriesController, CatsController, ProductsController],
+  controllers: [
+    CategoriesController,
+    CatsController,
+    ProductsController,
+    AppController,
+  ],
   providers: [AppService, CategoriesService, PrismaService, ProductsService],
 })
 export class AppModule {}

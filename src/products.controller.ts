@@ -1,6 +1,10 @@
 import {
   Controller,
   Query,
+  HttpCode,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
   Get,
   Param,
   Post,
@@ -19,7 +23,17 @@ export class ProductsController {
   // Get a single product by ID
   @Get('products/:id')
   async getProductById(@Param('id') id: string): Promise<ProductsModel> {
-    return this.productsService.product({ id: Number(id) });
+    if (isNaN(Number(id))) {
+      throw new BadRequestException('Invalid ID format, samo cifri be manqk');
+    }
+    const product = await this.productsService.product({ id: Number(id) });
+
+    if (!product) {
+      throw new NotFoundException(
+        `Product with ID ${id} not found, opitaj pak`,
+      );
+    }
+    return product;
   }
 
   // Get all products
@@ -30,15 +44,26 @@ export class ProductsController {
   ): Promise<ProductsModel[]> {
     return this.productsService.products({
       skip: Number(skip) || 0, // Default to 0 if no skip is provided
-      take: Number(take) || undefined, // Default to 4 if no take is provided
+      take: Number(take) || undefined, // Default to all if no take is provided
     });
   }
 
   // Create a new product
   @Post('products')
+  @HttpCode(204)
   async createProduct(
     @Body() productData: Prisma.productsCreateInput,
   ): Promise<ProductsModel> {
+    const existingProduct = await this.productsService.findFirst({
+      where: { name: productData.name },
+    });
+
+    if (existingProduct) {
+      throw new ConflictException(
+        'Product with this name already exists, bravo shef',
+      );
+    }
+
     return this.productsService.createProduct(productData);
   }
 
