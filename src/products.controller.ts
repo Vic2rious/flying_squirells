@@ -13,9 +13,9 @@ import {
   Put,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { products as ProductsModel } from '@prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductResponseDto } from './dto/product-response.dto';
 import {
   ApiTags,
   ApiOperation,
@@ -25,7 +25,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 
-@ApiTags('Products') // Swagger tag for grouping
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -36,35 +36,10 @@ export class ProductsController {
   @ApiResponse({
     status: 200,
     description: 'Product found',
-    schema: {
-      example: {
-        id: 1,
-        name: 'Product 1',
-        short_description: 'Short description of Product 1',
-        description: 'Description of Product 1',
-        price: 100.0,
-        discount: 10,
-        quantity: 50,
-        mark_as_new: true,
-        cover_photo: 'http://example.com/cover.jpg',
-        additional_photos: [
-          'http://example.com/photo1.jpg',
-          'http://example.com/photo2.jpg',
-        ],
-        sizes: ['S', 'M', 'L'],
-        colors: ['Red', 'Blue'],
-        category_id: 1,
-        averageReview: 4.5,
-      },
-    },
+    type: ProductResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Product not found' })
-  async getProductById(@Param('id') id: string): Promise<
-    {
-      averageReview: number | null;
-      price: number;
-    } & Omit<ProductsModel, 'price'>
-  > {
+  async getProductById(@Param('id') id: string): Promise<ProductResponseDto> {
     if (isNaN(Number(id))) {
       throw new BadRequestException('Invalid ID format');
     }
@@ -81,7 +56,7 @@ export class ProductsController {
 
     return {
       ...product,
-      price: Number(product.price), // Convert Decimal to number
+      price: Number(product.price),
       averageReview,
     };
   }
@@ -133,10 +108,7 @@ export class ProductsController {
     @Query('take') take: string,
   ): Promise<{
     pagination: { total: number };
-    data: (Omit<ProductsModel, 'price'> & {
-      price: number;
-      averageReview: number | null;
-    })[];
+    data: ProductResponseDto[];
   }> {
     const skipNumber = Number(skip) || 0;
     const takeNumber = Number(take) || undefined;
@@ -155,7 +127,7 @@ export class ProductsController {
         );
         return {
           ...product,
-          price: Number(product.price), // Convert Decimal to number
+          price: Number(product.price),
           averageReview,
         };
       }),
@@ -176,7 +148,7 @@ export class ProductsController {
   @ApiResponse({
     status: 201,
     description: 'Product created successfully',
-    //type: ProductsModel,
+    type: ProductResponseDto,
   })
   @ApiResponse({
     status: 409,
@@ -184,7 +156,7 @@ export class ProductsController {
   })
   async createProduct(
     @Body() productData: CreateProductDto,
-  ): Promise<ProductsModel> {
+  ): Promise<ProductResponseDto> {
     const existingProduct = await this.productsService.findFirst({
       where: { name: productData.name },
     });
@@ -193,7 +165,14 @@ export class ProductsController {
       throw new ConflictException('Product with this name already exists');
     }
 
-    return this.productsService.createProduct(productData);
+    const createdProduct =
+      await this.productsService.createProduct(productData);
+
+    return {
+      ...createdProduct,
+      price: Number(createdProduct.price),
+      averageReview: null, // Newly created products may not have reviews yet
+    };
   }
 
   @Put(':id')
@@ -203,16 +182,22 @@ export class ProductsController {
   @ApiResponse({
     status: 200,
     description: 'Product updated successfully',
-    //type: ProductsModel,
+    type: ProductResponseDto,
   })
   async updateProduct(
     @Param('id') id: string,
     @Body() updateData: UpdateProductDto,
-  ): Promise<ProductsModel> {
-    return this.productsService.updateProduct({
+  ): Promise<ProductResponseDto> {
+    const updatedProduct = await this.productsService.updateProduct({
       where: { id: Number(id) },
       data: updateData,
     });
+
+    return {
+      ...updatedProduct,
+      price: Number(updatedProduct.price),
+      averageReview: await this.productsService.getAverageReview(Number(id)),
+    };
   }
 
   @Delete(':id')
@@ -221,9 +206,17 @@ export class ProductsController {
   @ApiResponse({
     status: 200,
     description: 'Product deleted successfully',
-    //type: ProductsModel,
+    type: ProductResponseDto,
   })
-  async deleteProduct(@Param('id') id: string): Promise<ProductsModel> {
-    return this.productsService.deleteProduct({ id: Number(id) });
+  async deleteProduct(@Param('id') id: string): Promise<ProductResponseDto> {
+    const deletedProduct = await this.productsService.deleteProduct({
+      id: Number(id),
+    });
+
+    return {
+      ...deletedProduct,
+      price: Number(deletedProduct.price),
+      averageReview: await this.productsService.getAverageReview(Number(id)),
+    };
   }
 }

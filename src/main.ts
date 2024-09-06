@@ -17,7 +17,7 @@ async function bootstrap() {
     .setDescription(
       'API for managing categories, products, orders and reviews!',
     )
-    .setVersion('1.0')
+    .setVersion('2.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
