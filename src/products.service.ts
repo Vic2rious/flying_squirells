@@ -78,4 +78,18 @@ export class ProductsService {
       where,
     });
   }
+
+  // Get average review score for a product
+  async getAverageReview(productId: number): Promise<number | null> {
+    const reviews = await this.prisma.reviews.aggregate({
+      _avg: {
+        value: true, // Aggregates the average of the "value" column (review score)
+      },
+      where: {
+        product_id: productId,
+      },
+    });
+
+    return reviews._avg.value ?? null; // If no reviews, return null
+  }
 }

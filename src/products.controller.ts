@@ -22,7 +22,9 @@ export class ProductsController {
 
   // Get a single product by ID
   @Get('products/:id')
-  async getProductById(@Param('id') id: string): Promise<ProductsModel> {
+  async getProductById(
+    @Param('id') id: string,
+  ): Promise<{ product: ProductsModel; averageReview: number | null }> {
     if (isNaN(Number(id))) {
       throw new BadRequestException('Invalid ID format');
     }
@@ -31,17 +33,26 @@ export class ProductsController {
     if (!product) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
-    return product;
+
+    // Get the average review score
+    const averageReview = await this.productsService.getAverageReview(
+      Number(id),
+    );
+
+    return { product, averageReview };
   }
 
-  // Get all products with pagination
+  // Get all products with pagination and average reviews
   @Get('products')
   async getPaginatedProducts(
     @Query('skip') skip: string,
     @Query('take') take: string,
-  ): Promise<{ pagination: { total: number }; data: ProductsModel[] }> {
-    const skipNumber = Number(skip) || 0; // Default to 0 if no skip is provided
-    const takeNumber = Number(take) || undefined; // Default to all if no take is provided
+  ): Promise<{
+    pagination: { total: number };
+    data: { product: ProductsModel; averageReview: number | null }[];
+  }> {
+    const skipNumber = Number(skip) || 0;
+    const takeNumber = Number(take) || undefined;
 
     // Get the total count of products
     const totalCount = await this.productsService.countProducts();
@@ -52,11 +63,21 @@ export class ProductsController {
       take: takeNumber,
     });
 
+    // For each product, fetch the average review
+    const data = await Promise.all(
+      products.map(async (product) => {
+        const averageReview = await this.productsService.getAverageReview(
+          product.id,
+        );
+        return { product, averageReview };
+      }),
+    );
+
     return {
       pagination: {
         total: totalCount,
       },
-      data: products,
+      data,
     };
   }
 

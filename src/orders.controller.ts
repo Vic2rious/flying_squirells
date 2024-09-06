@@ -8,11 +8,12 @@ import {
   Delete,
   HttpCode,
   NotFoundException,
+  BadRequestException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { orders as OrdersModel } from '@prisma/client';
+import { Prisma, orders as OrdersModel } from '@prisma/client';
 import { CreateOrderDto } from './dto/create-order.dto';
 
 @Controller('orders')
@@ -45,18 +46,29 @@ export class OrdersController {
     return this.ordersService.createOrder(orderData, product_ids, amounts);
   }
 
+  // Update an existing order by ID
   @Put(':id')
   async updateOrder(
     @Param('id') id: string,
     @Body()
-    updateData: { orderData: any; productIds: number[]; amounts: number[] },
+    updateData: {
+      orderData: Prisma.ordersUpdateInput;
+      productIds: number[];
+      amounts: number[];
+    },
   ): Promise<OrdersModel> {
-    const { orderData, productIds, amounts } = updateData;
+    const orderId = Number(id);
+
+    // Ensure the order ID is valid
+    if (isNaN(orderId)) {
+      throw new BadRequestException('Invalid ID format');
+    }
+
     return this.ordersService.updateOrder({
-      where: { id: Number(id) },
-      data: orderData,
-      productIds,
-      amounts,
+      where: { id: orderId },
+      orderData: updateData.orderData,
+      productIds: updateData.productIds,
+      amounts: updateData.amounts,
     });
   }
 

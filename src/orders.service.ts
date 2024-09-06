@@ -78,15 +78,19 @@ export class OrdersService {
     return order;
   }
 
-  async updateOrder(params: {
+  async updateOrder(data: {
     where: Prisma.ordersWhereUniqueInput;
-    data: Prisma.ordersUpdateInput;
+    orderData: Prisma.ordersUpdateInput;
     productIds: number[];
     amounts: number[];
   }): Promise<orders> {
-    const { where, data, productIds, amounts } = params;
+    const { where, orderData, productIds, amounts } = data;
 
-    const existingOrder = await this.getOrderById(where.id);
+    // Check if the order exists
+    const existingOrder = await this.prisma.orders.findUnique({
+      where,
+    });
+
     if (!existingOrder) {
       throw new NotFoundException(`Order with ID ${where.id} not found`);
     }
@@ -112,7 +116,7 @@ export class OrdersService {
     // Update the order itself
     return this.prisma.orders.update({
       where,
-      data,
+      data: orderData,
     });
   }
 
