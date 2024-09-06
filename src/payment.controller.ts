@@ -15,7 +15,7 @@ import Stripe from 'stripe';
 import { Response, Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
-@ApiTags('payments')
+@ApiTags('Payments')
 @Controller('payments')
 export class PaymentsController {
   private stripe: Stripe;
