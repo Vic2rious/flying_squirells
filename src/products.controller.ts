@@ -40,23 +40,35 @@ export class ProductsController {
       example: {
         id: 1,
         name: 'Product 1',
+        short_description: 'Short description of Product 1',
         description: 'Description of Product 1',
         price: 100.0,
+        discount: 10,
+        quantity: 50,
+        mark_as_new: true,
+        cover_photo: 'http://example.com/cover.jpg',
+        additional_photos: [
+          'http://example.com/photo1.jpg',
+          'http://example.com/photo2.jpg',
+        ],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Red', 'Blue'],
+        category_id: 1,
         averageReview: 4.5,
       },
     },
   })
   @ApiResponse({ status: 404, description: 'Product not found' })
-  async getProductById(@Param('id') id: string): Promise<{
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    averageReview: number | null;
-  }> {
+  async getProductById(@Param('id') id: string): Promise<
+    {
+      averageReview: number | null;
+      price: number;
+    } & Omit<ProductsModel, 'price'>
+  > {
     if (isNaN(Number(id))) {
       throw new BadRequestException('Invalid ID format');
     }
+
     const product = await this.productsService.product({ id: Number(id) });
 
     if (!product) {
@@ -68,10 +80,8 @@ export class ProductsController {
     );
 
     return {
-      id: product.id,
-      name: product.name,
-      description: product.description,
-      price: Number(product.price),
+      ...product,
+      price: Number(product.price), // Convert Decimal to number
       averageReview,
     };
   }
@@ -98,8 +108,20 @@ export class ProductsController {
           {
             id: 1,
             name: 'Product 1',
+            short_description: 'Short description of Product 1',
             description: 'Description of Product 1',
             price: 100.0,
+            discount: 10,
+            quantity: 50,
+            mark_as_new: true,
+            cover_photo: 'http://example.com/cover.jpg',
+            additional_photos: [
+              'http://example.com/photo1.jpg',
+              'http://example.com/photo2.jpg',
+            ],
+            sizes: ['S', 'M', 'L'],
+            colors: ['Red', 'Blue'],
+            category_id: 1,
             averageReview: 4.5,
           },
         ],
@@ -111,13 +133,10 @@ export class ProductsController {
     @Query('take') take: string,
   ): Promise<{
     pagination: { total: number };
-    data: {
-      id: number;
-      name: string;
-      description: string;
+    data: (Omit<ProductsModel, 'price'> & {
       price: number;
       averageReview: number | null;
-    }[];
+    })[];
   }> {
     const skipNumber = Number(skip) || 0;
     const takeNumber = Number(take) || undefined;
@@ -135,10 +154,8 @@ export class ProductsController {
           product.id,
         );
         return {
-          id: product.id,
-          name: product.name,
-          description: product.description,
-          price: Number(product.price),
+          ...product,
+          price: Number(product.price), // Convert Decimal to number
           averageReview,
         };
       }),
@@ -159,7 +176,7 @@ export class ProductsController {
   @ApiResponse({
     status: 201,
     description: 'Product created successfully',
-    //type: productData
+    //type: ProductsModel,
   })
   @ApiResponse({
     status: 409,
