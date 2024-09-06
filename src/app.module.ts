@@ -15,8 +15,7 @@ import { FeedbackService } from './feedback.service';
 import { ReviewController } from './review.controller';
 import { ReviewService } from './review.service';
 
-import { StripeController } from './stripe.controller';
-import { StripeService } from './stripe.service';
+import { PaymentsController } from './payment.controller';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -35,7 +34,7 @@ import { ConfigModule } from '@nestjs/config';
     OrdersController,
     FeedbackController,
     ReviewController,
-    StripeController,
+    PaymentsController,
     AppController,
   ],
   providers: [
@@ -45,7 +44,6 @@ import { ConfigModule } from '@nestjs/config';
     ProductsService,
     FeedbackService,
     ReviewService,
-    StripeService,
     AppService,
   ],
 })
