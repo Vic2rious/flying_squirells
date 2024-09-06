@@ -35,6 +35,13 @@ export class ProductsService {
     });
   }
 
+  // Get total count of products
+  async countProducts(where?: Prisma.productsWhereInput): Promise<number> {
+    return this.prisma.products.count({
+      where,
+    });
+  }
+
   // Create a new product
   async createProduct(data: Prisma.productsCreateInput): Promise<products> {
     return this.prisma.products.create({

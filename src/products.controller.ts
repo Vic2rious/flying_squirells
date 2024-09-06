@@ -1,11 +1,11 @@
 import {
   Controller,
   Query,
-  HttpCode,
-  NotFoundException,
-  BadRequestException,
-  ConflictException,
   Get,
+  BadRequestException,
+  NotFoundException,
+  HttpCode,
+  ConflictException,
   Param,
   Post,
   Body,
@@ -24,33 +24,45 @@ export class ProductsController {
   @Get('products/:id')
   async getProductById(@Param('id') id: string): Promise<ProductsModel> {
     if (isNaN(Number(id))) {
-      throw new BadRequestException('Invalid ID format, samo cifri be manqk');
+      throw new BadRequestException('Invalid ID format');
     }
     const product = await this.productsService.product({ id: Number(id) });
 
     if (!product) {
-      throw new NotFoundException(
-        `Product with ID ${id} not found, opitaj pak`,
-      );
+      throw new NotFoundException(`Product with ID ${id} not found`);
     }
     return product;
   }
 
-  // Get all products
+  // Get all products with pagination
   @Get('products')
   async getPaginatedProducts(
     @Query('skip') skip: string,
     @Query('take') take: string,
-  ): Promise<ProductsModel[]> {
-    return this.productsService.products({
-      skip: Number(skip) || 0, // Default to 0 if no skip is provided
-      take: Number(take) || undefined, // Default to all if no take is provided
+  ): Promise<{ pagination: { total: number }; data: ProductsModel[] }> {
+    const skipNumber = Number(skip) || 0; // Default to 0 if no skip is provided
+    const takeNumber = Number(take) || undefined; // Default to all if no take is provided
+
+    // Get the total count of products
+    const totalCount = await this.productsService.countProducts();
+
+    // Get the paginated products
+    const products = await this.productsService.products({
+      skip: skipNumber,
+      take: takeNumber,
     });
+
+    return {
+      pagination: {
+        total: totalCount,
+      },
+      data: products,
+    };
   }
 
   // Create a new product
   @Post('products')
-  @HttpCode(204)
+  @HttpCode(201)
   async createProduct(
     @Body() productData: Prisma.productsCreateInput,
   ): Promise<ProductsModel> {
@@ -59,9 +71,7 @@ export class ProductsController {
     });
 
     if (existingProduct) {
-      throw new ConflictException(
-        'Product with this name already exists, bravo shef',
-      );
+      throw new ConflictException('Product with this name already exists');
     }
 
     return this.productsService.createProduct(productData);

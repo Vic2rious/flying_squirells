@@ -49,7 +49,7 @@ export class CategoriesController {
 
   // Create a new category
   @Post('categories')
-  @HttpCode(204)
+  @HttpCode(201)
   async createCategory(
     @Body() categoryData: Prisma.categoriesCreateInput,
   ): Promise<CategoriesModel> {
