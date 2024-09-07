@@ -24,6 +24,7 @@ import { CatsController } from './cats/cats.controller';
 
 import { PrismaService } from './prisma.service';
 import { ConfigModule } from '@nestjs/config';
+import { StripeService } from './stripe.service';
 
 @Module({
   imports: [ConfigModule.forRoot()],
@@ -44,6 +45,7 @@ import { ConfigModule } from '@nestjs/config';
     ProductsService,
     FeedbackService,
     ReviewService,
+    StripeService,
     AppService,
   ],
 })
