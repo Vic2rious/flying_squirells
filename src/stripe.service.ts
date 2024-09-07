@@ -47,7 +47,7 @@ export class StripeService {
       return session;
     } catch (error) {
       throw new HttpException(
-        `Error creating checkout session: ${orderId + error.message}`,
+        `Error creating checkout session: ${error.message}`,
         HttpStatus.BAD_REQUEST,
       );
     }

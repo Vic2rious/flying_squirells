@@ -12,6 +12,7 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
   );
 
+  // Parse the raw body for Stripe webhook validation
   app.use('/payments/webhook', bodyParser.raw({ type: 'application/json' }));
 
   // Swagger configuration
