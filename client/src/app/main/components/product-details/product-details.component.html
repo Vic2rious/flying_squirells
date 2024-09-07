@@ -1,0 +1,113 @@
+<app-header></app-header>
+<section class="pagePath">
+  <div class="container wrapper">
+    <div class="path">
+      <a routerLink="/main">
+        <span>Home</span>
+      </a>
+      <img src="/assets/images/arrow-navigate.svg">
+    </div>
+    <div class="path">
+      <a routerLink="/main/shop">
+        <span>Shop</span>
+      </a>
+      <img src="/assets/images/arrow-navigate.svg" alt="">
+    </div>
+    <div class="title-holder">
+      <span>{{ product.name }}</span>
+    </div>
+  </div>
+</section>
+<section class="product-details-holder container">
+  <div class="product-gallery">
+    <div class="additional-photos">
+<!--        <div *ngFor="let additionalImage of additionalImages; let i = index" >-->
+<!--          <img [src]="additionalImage[i]">-->
+<!--        </div>-->
+    </div>
+    <img [src]="product.cover_photo">
+  </div>
+  <div class="product-details">
+    <h2>{{product.name}}</h2>
+    <span class="price">{{product.price}}</span>
+    <p>{{product.description}}</p>
+    <div class="sizes">
+      <span class="size">Size</span>
+      <div class="all-sizes">
+        <div *ngFor="let size of productSizes; let i = index" class="button-size-holder">
+          <button [class.active]="currentSize === productSizes[i]" (click)="changeSize(i)" class="btn button-size">{{size}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="colors-holder">
+      <span class="color">Color</span>
+      <div class="colors">
+        <div
+          *ngFor="let color of productColors"
+          class="color-circle"
+          [ngStyle]="{'background-color': color}"
+          (click)="changeColor(color)">
+        </div>
+      </div>
+    </div>
+    <div class="product-options">
+      <div class="quantity-selector">
+        <button (click)="decreaseQuantity()" [disabled]="quantity <= 1">-</button>
+        <span>{{ quantity }}</span>
+        <button (click)="increaseQuantity()">+</button>
+      </div>
+      <button class="btn secondary-button" (click)="addToCart()">Add To Card</button>
+      <button class="btn secondary-button">+ Compare</button>
+    </div>
+    <div class="product-additional-details">
+      <div class="product-additional-details-detail">
+        <span class="detail-name">SKU</span>
+        <span>:</span>
+        <span class="detail-value">SS01</span>
+      </div>
+      <div class="product-additional-details-detail">
+        <span class="detail-name">Category</span>
+        <span>:</span>
+        <span class="detail-value">Sofas</span>
+      </div>
+      <div class="product-additional-details-detail">
+        <span class="detail-name">Tags</span>
+        <span>:</span>
+        <span class="detail-value">Sofa, Chair, Home, Shop</span>
+      </div>
+      <div class="product-additional-details-detail">
+        <span class="detail-name">Share</span>
+        <span>:</span>
+        <span class="detail-value">1 2 3 4</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="product-description-holder">
+  <div class="container product-description">
+    <div class="product-description-heading">
+      <h3>Description</h3>
+      <h3>Additional information</h3>
+      <h3>Reviews [5]</h3>
+    </div>
+    <div class="product-description-content">
+      <p>{{product.description}} Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p>
+    </div>
+    <div class="product-description-images">
+      <img src="/assets/images/desktop/product-details/product-description-image-1.svg">
+      <img src="/assets/images/desktop/product-details/product-description-image-1.svg">
+    </div>
+  </div>
+</section>
+<section class="related-products-holder">
+  <div class="container related-products">
+    <h3>Related products</h3>
+    <div class="products-cards-list">
+      <product-card *ngFor="let product of products" [product]="product"></product-card>
+    </div>
+    <div class="show-more">
+      <a routerLink="/main/shop" class="primary-button-transperent">Show more</a>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>

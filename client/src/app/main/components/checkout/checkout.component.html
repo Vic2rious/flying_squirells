@@ -1,0 +1,114 @@
+<app-header></app-header>
+<page-heading>
+  <h2>Checkout</h2>
+  <div class="page-navigation">
+    <span>Home</span>
+    <span><img src="/assets/images/desktop/shop/arrow-navigate.svg" alt="arrow-navigate"></span>
+    <span>Checkout</span>
+  </div>
+</page-heading>
+<div class="container billing-details-holder">
+  <h2>Billing details</h2>
+  <div class="billing-details">
+    <form [formGroup]="billingForm"
+          (ngSubmit)="placeOrder()">
+      <div class="form-left">
+        <div class="first-and-last-name">
+          <div class="form-group">
+            <label>First name</label>
+            <input type="text" formControlName="first_name">
+          </div>
+          <div class="form-group">
+            <label>Last name</label>
+            <input type="text" formControlName="last_name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Company name (Optional)</label>
+          <input type="text" formControlName="company_name">
+        </div>
+        <div class="form-group">
+          <label>Country/Region</label>
+          <input type="text" formControlName="country">
+        </div>
+        <div class="form-group">
+          <label>Street address</label>
+          <input type="text" formControlName="address">
+        </div>
+        <div class="form-group">
+          <label>Town/City</label>
+          <input type="text" formControlName="city">
+        </div>
+<!--        <div class="form-group">-->
+<!--          <label>Province</label>-->
+<!--          <input type="text" formControlName="province">-->
+<!--        </div>-->
+        <div class="form-group">
+          <label>ZIP code</label>
+          <input type="text" formControlName="postal_code">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" formControlName="phone_number">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email">
+        </div>
+      </div>
+      <div class="form-right">
+        <div class="form-right-title">
+          <span>Product</span>
+          <span>Subtotal</span>
+        </div>
+        <div class="form-right-products">
+          <div *ngFor="let product of productsInCart">
+              <span>{{product.name}} x {{product.quantity}}</span>
+              <span>{{product.price}}</span>
+          </div>
+        </div>
+        <div class="form-right-total">
+          <span>Total</span>
+          <span class="total-price">
+            {{subtotal}}
+          </span>
+        </div>
+        <button class="secondary-button" type="submit">Place Order</button>
+      </div>
+    </form>
+  </div>
+</div>
+<section class="features-holder">
+  <div class="container features">
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-1.svg">
+      <div class="feature-text">
+        <h3>High quality</h3>
+        <p>crafted from top materials</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-2.svg">
+      <div class="feature-text">
+        <h3>Warranty Protection</h3>
+        <p>Over 2 years</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-3.svg">
+      <div class="feature-text">
+        <h3>Free Shipping</h3>
+        <p>Order over 150 $</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-4.svg">
+      <div class="feature-text">
+        <h3>24 / 7 Support</h3>
+        <p>Dedicated support</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+<app-footer></app-footer>

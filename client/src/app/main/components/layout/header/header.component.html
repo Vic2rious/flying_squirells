@@ -1,0 +1,42 @@
+<header>
+  <img src="../../../../../assets/images/logo.svg" alt="furniro">
+  <nav>
+    <a href="#">Home</a>
+    <a routerLink="/main/shop">Shop</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>
+  <div class="additional-features">
+    <img src="../../../../../assets/images/profile.svg" alt="profile">
+    <img src="../../../../../assets/images/search.svg" alt="search">
+    <img src="../../../../../assets/images/favourites.svg" alt="favourites">
+    <div class="cart-icon-wrapper">
+      <img src="../../../../../assets/images/shopping-cart.svg" (click)="openCart()" alt="shopping-cart">
+      <span *ngIf="productAddedToCart" class="cart-indicator"></span>
+    </div>
+    <div class="overlay" *ngIf="isCardOpen" (click)="closeCart()"></div>
+    <div class="small-cart" *ngIf="isCardOpen">
+      <div class="small-cart-top">
+        <span class="small-card-title">Shopping card</span>
+        <img src="/assets/images/close-small-cart.svg" (click)="closeCart()">
+      </div>
+      <div class="small-cart-medium">
+        <div *ngFor="let product of productsInCart; let i = index" class="product-in-cart-holder">
+          <div class="product-in-cart">
+            <img class="product-in-cart-cover-photo" [src]="product.cover_photo">
+            <div class="product-info">
+              <span>{{product.name}}</span>
+            </div>
+            <img class="remove-product" src="/assets/images/remove-product-in-cart.svg">
+          </div>
+        </div>
+      </div>
+      <div class="horizontal-line"></div>
+      <div class="small-cart-bottom">
+        <a routerLink="/main/cart" class="small-cart-button">Cart</a>
+        <a routerLink="/main/checkout" class="small-cart-button">Checkout</a>
+        <a routerLink="/main/comparison" class="small-cart-button">Comparison</a>
+      </div>
+    </div>
+  </div>
+</header>

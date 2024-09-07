@@ -1,0 +1,78 @@
+.page-navigation {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.billing-details-holder {
+  padding-top: 98px;
+  h2 {
+    margin-bottom: 36px;
+    padding-left: 75px;
+  }
+
+  .billing-details {
+
+    form  {
+      display: flex;
+      justify-content: space-between;
+      gap: 100px;
+
+      .form-left {
+        width: 50%;
+        padding-inline: 75px;
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+        .first-and-last-name {
+          display: flex;
+          gap: 30px;
+        }
+      }
+
+      .form-right {
+        width: 50%;
+        &-title {
+          display: flex;
+          justify-content: space-between;
+          span {
+            font-size: 24px;
+            font-weight: var(--medium);
+          }
+        }
+
+        &-products {
+          margin-top: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+
+          div {
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+
+        &-total {
+          padding-bottom: 39px;
+          margin-block: 22px 39px;
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid var(--grey-text);
+        }
+      }
+    }
+  }
+}
+
+input {
+  margin-top: 22px;
+  border: 1px solid var(--grey-text);
+  border-radius: 10px;
+  height: 75px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,29 @@
+
+<div class="product-card" (click)="redirectToProductDetails(product.id)">
+  <div class="product-card-content">
+    <div class="product-card-image">
+      <img [src]="product.cover_photo">
+      <div class="product-card-circle discount" *ngIf="product.discount">
+        -{{product.discount}}%
+      </div>
+      <div class="product-card-circle new" *ngIf="product.mark_as_new">
+        New
+      </div>
+    </div>
+    <div class="product-card-text">
+      <h3>{{product.name}}</h3>
+      <p>{{product.short_description}}</p>
+      <div class="price">
+        <span class="main-price">{{product.price}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="product-card-overlay">
+      <button class="btn primary-button-reversed" (click)="addToCart()">Add to card</button>
+      <div class="product-card-other-options">
+        <span><img src="/assets/images/desktop/shop/share.svg" alt="share">Share</span>
+        <span><img src="/assets/images/desktop/shop/compare.svg" alt="compare">Compare</span>
+        <span><img src="/assets/images/desktop/shop/like.svg" alt="like">Like</span>
+      </div>
+  </div>
+</div>

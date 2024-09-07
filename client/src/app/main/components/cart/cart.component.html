@@ -1,0 +1,75 @@
+<app-header></app-header>
+<page-heading>
+  <h2>Cart</h2>
+  <div class="page-navigation">
+    <span>Home</span>
+    <span><img src="/assets/images/desktop/shop/arrow-navigate.svg" alt="arrow-navigate"></span>
+    <span>Cart</span>
+  </div>
+</page-heading>
+<div class="container cart-details">
+  <div class="cart-products-list">
+    <p>here is the table</p>
+    <div class="cart-products-list-products">
+      <div *ngFor="let product of productsInCart; let i = index" class="product-in-cart-holder">
+        <div class="product-in-cart">
+          <img [src]="product.cover_photo">
+          <div class="product-info">
+            <span>{{product.name}}</span>
+            <span>{{product.price}}</span>
+            <span class="quantity">1</span>
+            <span>{{product.price}}</span>
+            <span class="bin"><img src="/assets/images/bin.svg" alt="trash-bin"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cart-totals">
+    <h3>Card Totals</h3>
+    <div class="subtotal-and-total">
+      <div class="subtotal">
+        <p>Subtotal</p>
+        <p>{{subtotal}}</p>
+      </div>
+      <div class="total">
+        <p>Total</p>
+        <p>{{subtotal}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="features-holder">
+  <div class="container features">
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-1.svg">
+      <div class="feature-text">
+        <h3>High quality</h3>
+        <p>crafted from top materials</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-2.svg">
+      <div class="feature-text">
+        <h3>Warranty Protection</h3>
+        <p>Over 2 years</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-3.svg">
+      <div class="feature-text">
+        <h3>Free Shipping</h3>
+        <p>Order over 150 $</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-4.svg">
+      <div class="feature-text">
+        <h3>24 / 7 Support</h3>
+        <p>Dedicated support</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+<app-footer></app-footer>

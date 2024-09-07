@@ -1,0 +1,89 @@
+<app-header></app-header>
+<page-heading>
+  <h2>Shop</h2>
+  <div class="page-navigation">
+    <span>Home</span>
+    <span><img src="/assets/images/desktop/shop/arrow-navigate.svg" alt="arrow-navigate"></span>
+    <span>Shop</span>
+  </div>
+</page-heading>
+<section class="filter-and-sort-bar-holder">
+  <div class=" container filter-and-sort-bar">
+    <div class="filter">
+      <div class="filter-options">
+        <div class="filter-options-first">
+          <img src="/assets/images/desktop/shop/filter-option-1.svg">
+          <span>Filter</span>
+        </div>
+        <img src="/assets/images/desktop/shop/filter-option-2.svg">
+        <img src="/assets/images/desktop/shop/filter-option-3.svg">
+      </div>
+      <div class="filter-results">
+        <p>Showing 1–{{ productsPerPage }} of {{ totalProducts }} results</p>
+      </div>
+    </div>
+    <div class="sort">
+      <div class="show">
+        <span>Show</span>
+        <input
+          type="text"
+          #inputElement
+          (keydown.enter)="onEnter(Number(inputElement.value))"
+          placeholder="16">
+      </div>
+      <div class="sort-by">
+        <span>Sort by</span>
+        <input type="text" placeholder="Default">
+      </div>
+    </div>
+  </div>
+
+</section>
+<section class="container products">
+  <div class="products-cards-list">
+    <product-card *ngFor="let product of products" [product]="product"></product-card>
+  </div>
+  <div class="products-cards-pagination">
+    <ng-template [appRepeat]="pagesNumber" let-i="index">
+      <div class="pages-numbers">
+        <div class="page-number">
+          <button [class.active]="currentPage === i" (click)="changePage(i)" class="btn btn-page">{{i + 1}}</button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>
+<section class="features-holder">
+  <div class="container features">
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-1.svg">
+      <div class="feature-text">
+        <h3>High quality</h3>
+        <p>crafted from top materials</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-2.svg">
+      <div class="feature-text">
+        <h3>Warranty Protection</h3>
+        <p>Over 2 years</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-3.svg">
+      <div class="feature-text">
+        <h3>Free Shipping</h3>
+        <p>Order over 150 $</p>
+      </div>
+    </div>
+    <div class="feature">
+      <img src="/assets/images/desktop/shop/feature-4.svg">
+      <div class="feature-text">
+        <h3>24 / 7 Support</h3>
+        <p>Dedicated support</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+<app-footer></app-footer>

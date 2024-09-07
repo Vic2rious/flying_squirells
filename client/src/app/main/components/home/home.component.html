@@ -1,0 +1,97 @@
+<app-header></app-header>
+<section class="hero">
+  <div class="hero-heading">
+    <div class="hero-heading-title">
+      <span>New arrival</span>
+      <h1>Discover our new collection</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.</p>
+    </div>
+    <div class="shop-now">
+      <a href="#" class="primary-button">Buy now</a>
+    </div>
+  </div>
+</section>
+<section class="container categories">
+  <div class="categories-heading">
+    <h2>Browse The Range</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </div>
+  <div class="categories-listing">
+    <div class="categories-listing-holder" *ngFor="let category of categories">
+      <div class="category-card">
+        <img [src]="category.cover_photo" alt="cover">
+        <h3>{{category.name}}</h3>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="container our-products">
+  <h2>Our products</h2>
+  <div class="products-cards-list">
+    <product-card *ngFor="let product of products" [product]="product"></product-card>
+  </div>
+  <div class="show-more">
+    <a routerLink="/main/shop" class="primary-button-transperent">Show more</a>
+  </div>
+</section>
+<!--<section class="inspiration">-->
+<!--  <div class="inspiration-text">-->
+<!--    <h2>50+ Beautiful rooms inspiration</h2>-->
+<!--    <p>Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>-->
+<!--    <div class="explore-more">-->
+<!--      <a href="#" class="primary-button">Explore-more</a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="inspiration-carousel">-->
+<!--    <div class="carousel">-->
+<!--      <div class="slides-wrapper">-->
+<!--        <div-->
+<!--          *ngFor="let slide of slides; let i = index"-->
+<!--          class="slide"-->
+<!--          [class.active]="i === currentIndex"-->
+<!--          [class.left]="i !== currentIndex && i < currentIndex"-->
+<!--          [class.right]="i !== currentIndex && i > currentIndex"-->
+<!--        >-->
+<!--          <img [src]="slide.imageUrl" [alt]="slide.heading" />-->
+<!--          <div class="slide-info" *ngIf="i === currentIndex">-->
+<!--            <h2>{{ slide.heading }}</h2>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <button class="next" (click)="nextSlide()">Next</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+<section class="funiro-furniture-holder">
+  <div class="funiro-furniture-heading">
+    <span>Share your setup with</span>
+    <h2>#FuniroFurniture</h2>
+  </div>
+  <div class="funiro-furniture">
+    <div class="left">
+      <div class="left-top">
+        <img src="/assets/images/desktop/left-top-1.svg">
+        <img src="/assets/images/desktop/left-top-2.svg">
+      </div>
+      <div class="left-bottom">
+        <img src="/assets/images/desktop/left-bottom-1.svg">
+        <img src="/assets/images/desktop/left-bottom-2.svg">
+      </div>
+    </div>
+    <div class="middle">
+      <img src="/assets/images/desktop/middle.svg">
+    </div>
+    <div class="right">
+      <div class="right-top">
+        <img src="/assets/images/desktop/right-top-1.svg">
+        <img src="/assets/images/desktop/right-top-2.svg">
+      </div>
+      <div class="right-bottom">
+        <img src="/assets/images/desktop/right-bottom-1.svg">
+        <img src="/assets/images/desktop/right-bottom-2.svg">
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>

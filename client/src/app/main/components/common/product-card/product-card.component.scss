@@ -1,0 +1,102 @@
+.product-card {
+  position: relative;
+  transition: box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+
+  &-content {
+    .product-card-image {
+      position: relative;
+
+      img {
+        max-width: 100%;
+      }
+
+      .product-card-circle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30px;
+        color: var(--white);
+      }
+
+      .discount {
+        background-color: var(--discount);
+      }
+
+      .new {
+        background-color: var(--new);
+      }
+
+      .product-card-discount {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--discount);
+        border-radius: 30px;
+        color: var(--white);
+      }
+    }
+
+    .product-card-text {
+      padding: 16px 20px 30px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background-color: var(--grey-background);
+      h3 {
+        font-size: 24px;
+        font-weight: var(--semi-bold);
+      }
+
+      .price {
+        .main-price {
+          font-size: 20px;
+          font-weight: var(--semi-bold);
+        }
+      }
+    }
+  }
+
+  &-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    transition: display 0.3s ease-in-out;
+
+    .product-card-other-options {
+      display: flex;
+      gap: 20px;
+
+      span {
+        display: flex;
+        gap: 4px;
+        font-weight: var(--semi-bold);
+        color: var(--white);
+      }
+    }
+  }
+}
+
+.product-card:hover {
+  .product-card-overlay {
+    display: flex;
+  }
+}
