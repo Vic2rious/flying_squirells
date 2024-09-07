@@ -68,7 +68,7 @@ export class StripeService {
         endpointSecret,
       );
 
-      // Process the event based on its type
+      // Process the event based on its type\
       switch (event.type) {
         case 'checkout.session.completed': {
           const session = event.data.object as Stripe.Checkout.Session;

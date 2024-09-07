@@ -63,7 +63,7 @@ export class PaymentsController {
   @ApiResponse({ status: 200, description: 'Webhook received successfully' })
   @ApiResponse({ status: 400, description: 'Webhook handling failed' })
   async handleWebhook(
-    @Req() req: RawBodyRequest<Buffer>, // Correctly expecting raw body as Buffer
+    @Req() req: RawBodyRequest<Request>, // Correctly expecting raw body as Buffer
     @Headers('stripe-signature') signature: string,
   ) {
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET; // Fetch webhook secret from environment
